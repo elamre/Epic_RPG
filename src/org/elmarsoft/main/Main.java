@@ -1,3 +1,5 @@
+package org.elmarsoft.main;
+
 import org.newdawn.slick.*;
 
 public class Main extends BasicGame {
