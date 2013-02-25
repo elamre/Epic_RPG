@@ -1,5 +1,8 @@
 package org.elmarsoft.main;
 
+import org.elmarsoft.entity.Player;
+import org.elmarsoft.map.Camera;
+import org.elmarsoft.map.MapOrganizer;
 import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -17,6 +20,9 @@ public class Game extends BasicGame {
     public static final int SCREENWIDTH = 640;
     public static final int SCREENHEIGTH = 480;
     public static final int SCALE = 1;
+    private Player player;
+    private MapOrganizer map;
+
     /**
      * Create a new basic game
      *
@@ -31,6 +37,8 @@ public class Game extends BasicGame {
      */
     @Override
     public void init(GameContainer container) throws SlickException {
+        player = new Player(false);
+        map = new MapOrganizer();
         //To change body of implemented methods use File | Settings | File Templates.
     }
 
@@ -39,6 +47,7 @@ public class Game extends BasicGame {
      */
     @Override
     public void update(GameContainer container, int delta) throws SlickException {
+        player.update(delta, container);
         //To change body of implemented methods use File | Settings | File Templates.
     }
 
@@ -53,7 +62,10 @@ public class Game extends BasicGame {
      */
     @Override
     public void render(GameContainer container, Graphics g) throws SlickException {
-        Rectangle screenPos = new Rectangle(0,0,Game.SCREENWIDTH,Game.SCREENHEIGTH);
-        //To change body of implemented methods use File | Settings | File Templates.
+        Camera.getInstance().lockOnTarget(player);
+        Rectangle screenPos = new Rectangle(0 + Camera.getInstance().getX(), 0 + Camera.getInstance().getY(), Game.SCREENWIDTH, Game.SCREENHEIGTH);
+        Camera.getInstance().lockScreen(g);
+        map.draw(g);
+        Camera.getInstance().unlockScreen(g);
     }
 }
