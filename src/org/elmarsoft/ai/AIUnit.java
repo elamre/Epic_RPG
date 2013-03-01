@@ -1,4 +1,6 @@
-package org.elmarsoft.entity;
+package org.elmarsoft.ai;
+
+import org.elmarsoft.entity.MovingEntity;
 
 /**
  * Created with IntelliJ IDEA.
@@ -9,10 +11,15 @@ package org.elmarsoft.entity;
  */
 public abstract class AIUnit extends MovingEntity {
     String name = "";
+    String text = "";
 
-    public AIUnit(int entityId, boolean solid, String name) {
-        super(entityId, solid);
+    public AIUnit(int x, int y, String name) {
+        super(0, true, x, y);
         this.name = name;
+    }
+
+    public void setText(String text) {
+        this.text = text;
     }
 
 

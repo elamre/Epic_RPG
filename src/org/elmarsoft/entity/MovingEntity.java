@@ -12,16 +12,27 @@ import org.newdawn.slick.GameContainer;
 public abstract class MovingEntity extends Entity {
     protected float dx = 0;
     protected float dy = 0;
-    protected float speed = 0.5f;
+    protected float speed = 1f;
+    protected float destinationX = 0;
+    protected float destinationY = 0;
 
     public MovingEntity(int entityId, boolean solid) {
         super(entityId, solid);
     }
 
+    public MovingEntity(int entityId, boolean solid, int x, int y) {
+        super(entityId, solid, x, y);
+    }
+
     public void update(float deltaT, GameContainer gameContainer) {
-        this.x += deltaT * dx * speed;
-        this.y += deltaT * dy * speed;
+        this.x += dx * speed;
+        this.y += dy * speed;
         updateImplement(deltaT, gameContainer);
+    }
+
+    public void setDest(int destionationX, int destinationY) {
+        this.destinationX = destionationX;
+        this.destinationY = destinationY;
     }
 
     protected abstract void updateImplement(float deltaT, GameContainer gameContainer);

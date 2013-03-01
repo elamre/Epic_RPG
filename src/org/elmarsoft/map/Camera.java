@@ -12,9 +12,12 @@ import org.newdawn.slick.Graphics;
  * To change this template use File | Settings | File Templates.
  */
 public class Camera {
+    private static final int CAMERA_SPEED = 1;
     private static Camera ourInstance = new Camera();
-    private int x = 0;
-    private int y = 0;
+    private float x = 0;
+    private float y = 0;
+    private float targetX = 0;
+    private float targetY = 0;
 
     public static Camera getInstance() {
         return ourInstance;
@@ -23,26 +26,43 @@ public class Camera {
     private Camera() {
     }
 
+    public void update(float deltaT) {
+        int cameraDelta = (int) deltaT * CAMERA_SPEED;
+        if (Math.abs(targetX - x) > cameraDelta) {
+            if (targetX > x)
+                x += cameraDelta;
+            else
+                x -= cameraDelta;
+        } else
+            x = targetX;
+        if (Math.abs(targetY - y) > cameraDelta) {
+            if (targetY > y)
+                y += cameraDelta;
+            else
+                y -= cameraDelta;
+        } else
+            y = targetY;
+    }
+
+
     public void lockOnTarget(Entity entity) {
-        if (entity.getX() - Game.SCREENWIDTH / 2 > 0)
-            this.x = (int) entity.getX() - Game.SCREENWIDTH / 2;
-        if (entity.getY() - Game.SCREENHEIGTH / 2 > 0)
-            this.y = (int) entity.getY() - Game.SCREENHEIGTH / 2;
+        this.targetX =  entity.getX()- (Game.SCREENWIDTH / Game.SCALE) / 2;
+        this.targetY =  entity.getY()- (Game.SCREENHEIGTH / Game.SCALE) / 2;
     }
 
     public void lockScreen(Graphics graphics) {
-        graphics.translate(-x, -y);
+        graphics.translate(-x * Game.SCALE, -y * Game.SCALE);
     }
 
     public void unlockScreen(Graphics graphics) {
         graphics.translate(x, y);
     }
 
-    public int getX() {
+    public float getX() {
         return x;
     }
 
-    public int getY() {
+    public float getY() {
         return y;
     }
 }

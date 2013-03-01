@@ -1,6 +1,7 @@
 package org.elmarsoft.entity;
 
 import org.elmarsoft.image.ImageGetter;
+import org.elmarsoft.main.Game;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Rectangle;
@@ -17,25 +18,32 @@ public abstract class Entity {
     private boolean solid;
     protected float x;
     protected float y;
+    protected float width = Game.TILESIZE;
+    protected float heigth = Game.TILESIZE;
+
+    public Entity(int entityId, boolean solid, int x, int y) {
+        this.x = x;
+        this.y = y;
+        this.solid = solid;
+    }
+
+    public Entity(int entityId, boolean solid, float x, float y) {
+        this.x = x;
+        this.y = y;
+        this.solid = solid;
+    }
 
     public Entity(int entityId, boolean solid) {
         this.solid = solid;
-        switch (entityId) {
-            case 1:
-                image = ImageGetter.getInstance().getImage(4,0);
-                break;
-            default:
-                image = ImageGetter.getInstance().getImage(0, 0);
-                break;
-        }
     }
 
     public void draw(Graphics graphics, Rectangle screenPos) {
-        if (x + 16 > screenPos.getX() && x < screenPos.getMaxX()) {
-            if (y + 16 > screenPos.getY() && y < screenPos.getMaxX()) {
-                if (image != null)
+        if (x + width > screenPos.getX() && x < screenPos.getMaxX()) {
+            if (y + heigth > screenPos.getY() && y < screenPos.getMaxY()) {
+                if (image != null) {
                     image.draw(x, y);
-                implementDraw(graphics);
+                }
+                implementDraw(graphics, screenPos);
             }
         }
     }
@@ -52,5 +60,5 @@ public abstract class Entity {
         return y;
     }
 
-    public abstract void implementDraw(Graphics graphics);
+    public abstract void implementDraw(Graphics graphics, Rectangle screenPos);
 }
