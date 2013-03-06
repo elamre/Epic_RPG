@@ -22,6 +22,7 @@ public class Weather {
     public static final WeatherSettings RAINY = new WeatherSettings(true, 150, 0.743f, 0.743f, 0.743f, 0.5f, 0.10f, 0.7f, 8, 0.08f, 0.10f, 0.5f);
     public static final WeatherSettings STORM = new WeatherSettings(true, 250, 0.400f, 0.400f, 0.400f, 0.8f, 0.15f, 0.8f, 12, 0.10f, 0.15f, 0.6f);
     private ArrayList<Cloud> clouds = new ArrayList<Cloud>();
+    private int randomWeather = 7;
     private WeatherSettings weather;
     private boolean flashing = false;
     private float flashAlpha = 1;
@@ -29,6 +30,7 @@ public class Weather {
     private Rain rain = new Rain();
     private float targetAlphaOverlay = 0;
     private float currentAlphaOverlay = 0;
+    private float weatherChangeTimer = 0;
 
     public Weather() {
         setWeather(CLEARWEATHER);
@@ -48,6 +50,38 @@ public class Weather {
     }
 
     public void update(float deltaT) {
+        weatherChangeTimer += deltaT;
+        if (weatherChangeTimer > 5000) {
+            switch (new Random().nextInt(randomWeather)) {
+                case 1:
+                    System.out.println("Cloudy");
+                    setWeather(CLOUDY);
+                    if (randomWeather > 3) {
+                        randomWeather--;
+                    }
+                    break;
+                case 2:
+                    System.out.println("Rainy");
+                    setWeather(RAINY);
+                    randomWeather = 8;
+                    weatherChangeTimer -= 2000;
+                    break;
+                case 3:
+                    System.out.println("Storm!");
+                    setWeather(STORM);
+                    weatherChangeTimer -= 3000;
+                    randomWeather = 8;
+                    break;
+                default:
+                    System.out.println("Sunny");
+                    setWeather(CLEARWEATHER);
+                    if (randomWeather > 3) {
+                        randomWeather--;
+                    }
+                    break;
+            }
+            weatherChangeTimer -= 5000;
+        }
         if (currentAlphaOverlay < targetAlphaOverlay) {
             currentAlphaOverlay += 0.001 * deltaT;
         }

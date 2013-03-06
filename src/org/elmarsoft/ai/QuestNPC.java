@@ -12,6 +12,7 @@ import org.newdawn.slick.geom.Rectangle;
  * To change this template use File | Settings | File Templates.
  */
 public class QuestNPC extends NPC {
+    boolean showText = false;
 
     public QuestNPC(int x, int y, String name) {
         super(x, y, name);

@@ -22,7 +22,8 @@ public class Game extends BasicGame {
     public static final int SCALE = 2;
     private Player player;
     private Weather weather = new Weather();
-    private DayNight day= new DayNight();
+    private DayNight day = new DayNight();
+    //public static TextBubble bubble = new TextBubble("wtest");
 
     /**
      * Create a new basic game
@@ -84,5 +85,6 @@ public class Game extends BasicGame {
         weather.draw(g, screenPos);
         Camera.getInstance().unlockScreen(g);
         day.draw(g);
+        //bubble.draw(g);
     }
 }
